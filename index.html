@@ -6,15 +6,18 @@
   <title>EcoMonitor — Iluminación</title>
   <style>
     :root {
-      --bg: #0f1419;
-      --surface: #182026;
-      --surface-hover: #222d36;
-      --border: #2a3742;
-      --text: #f1f5f9;
-      --muted: #94a3b8;
-      --accent: #10b981;
-      --accent-glow: rgba(16, 185, 129, 0.25);
-      --alarm: #ef4444;
+      --bg: #ffffff;
+      --surface: #f8faf9;
+      --card: #ffffff;
+      --surface-hover: #f0f6f2;
+      --border: #dce5df;
+      --text: #1b2e1e;
+      --muted: #5c6f61;
+      --accent: #5a9a32;       /* Leaf green from logo */
+      --accent-dark: #234d20;  /* Forest green from logo */
+      --teal: #3c8496;         /* Signal teal from logo */
+      --accent-glow: rgba(90, 154, 50, 0.2);
+      --alarm: #dc2626;
     }
 
     * {
@@ -44,21 +47,32 @@
       align-items: center;
       gap: 1rem;
       margin-bottom: 1.75rem;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid var(--border);
+      padding-bottom: 1.1rem;
+      border-bottom: 2px solid var(--border);
     }
 
-    .brand h1 {
-      font-size: 1.6rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: var(--accent);
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .brand img {
+      height: 54px;
+      width: auto;
+      display: block;
+    }
+
+    .brand-divider {
+      width: 1.5px;
+      height: 32px;
+      background: var(--border);
     }
 
     .brand p {
-      font-size: 0.95rem;
-      color: var(--muted);
-      margin-top: 0.15rem;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--teal);
     }
 
     .server-box {
@@ -66,13 +80,14 @@
       align-items: center;
       gap: 0.5rem;
       background: var(--surface);
-      padding: 0.45rem 0.75rem;
+      padding: 0.5rem 0.85rem;
       border-radius: 10px;
       border: 1px solid var(--border);
     }
 
     .server-box label {
       font-size: 0.8rem;
+      font-weight: 600;
       color: var(--muted);
       white-space: nowrap;
     }
@@ -106,13 +121,14 @@
       border: 1px solid var(--border);
       border-radius: 16px;
       padding: 1.5rem;
+      box-shadow: 0 4px 16px rgba(35, 77, 32, 0.05);
     }
 
     .panel-title {
       font-size: 1.05rem;
-      font-weight: 600;
+      font-weight: 700;
       margin-bottom: 1.1rem;
-      color: var(--text);
+      color: var(--accent-dark);
     }
 
     /* Left Panel: Mode Cards */
@@ -123,7 +139,7 @@
     }
 
     .mode-btn {
-      background: #13191e;
+      background: var(--card);
       border: 1.5px solid var(--border);
       border-radius: 12px;
       padding: 1rem 0.85rem;
@@ -133,24 +149,26 @@
       transition: all 0.18s ease;
       display: flex;
       flex-direction: column;
-      gap: 0.45rem;
+      gap: 0.4rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
     }
 
     .mode-btn:hover {
       background: var(--surface-hover);
+      border-color: var(--accent);
       transform: translateY(-2px);
     }
 
     .mode-btn.active {
       border-color: var(--accent);
-      background: rgba(16, 185, 129, 0.1);
+      background: #eef7ea;
       box-shadow: 0 0 0 3px var(--accent-glow);
     }
 
     .mode-btn.alarm.active {
       border-color: var(--alarm);
-      background: rgba(239, 68, 68, 0.14);
-      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.25);
+      background: #fef2f2;
+      box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.18);
     }
 
     .mode-icon {
@@ -158,9 +176,14 @@
     }
 
     .mode-name {
-      font-weight: 600;
+      font-weight: 700;
       font-size: 0.95rem;
       line-height: 1.25;
+      color: var(--accent-dark);
+    }
+
+    .mode-btn.alarm.active .mode-name {
+      color: var(--alarm);
     }
 
     .mode-desc {
@@ -183,7 +206,8 @@
       border-radius: 50%;
       cursor: crosshair;
       display: block;
-      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+      border: 3px solid #ffffff;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.14);
     }
 
     #wheelCursor {
@@ -192,7 +216,7 @@
       height: 18px;
       border: 3px solid #ffffff;
       border-radius: 50%;
-      box-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.65);
       transform: translate(-50%, -50%);
       pointer-events: none;
       left: 50%;
@@ -212,7 +236,7 @@
     }
 
     .control-header strong {
-      color: var(--text);
+      color: var(--accent-dark);
     }
 
     /* Brightness Slider */
@@ -221,7 +245,8 @@
       width: 100%;
       height: 10px;
       border-radius: 999px;
-      background: linear-gradient(to right, #111827, #ffffff);
+      background: linear-gradient(to right, #374151, #e5e7eb);
+      border: 1px solid var(--border);
       outline: none;
       cursor: pointer;
     }
@@ -232,21 +257,26 @@
       height: 20px;
       border-radius: 50%;
       background: var(--accent);
-      border: 2px solid #fff;
+      border: 2.5px solid #ffffff;
       cursor: pointer;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.28);
     }
 
     select {
       width: 100%;
       padding: 0.65rem 0.75rem;
       border-radius: 10px;
-      border: 1px solid var(--border);
-      background: #13191e;
+      border: 1.5px solid var(--border);
+      background: #ffffff;
       color: var(--text);
       font-size: 0.92rem;
+      font-weight: 500;
       outline: none;
       cursor: pointer;
+    }
+
+    select:focus {
+      border-color: var(--accent);
     }
 
     /* Live Preview + Submit */
@@ -267,11 +297,12 @@
     }
 
     #colorPreview {
-      width: 40px;
-      height: 40px;
+      width: 42px;
+      height: 42px;
       border-radius: 10px;
       border: 2px solid var(--border);
       background: rgb(255, 255, 255);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
       transition: background 0.1s ease;
     }
 
@@ -282,24 +313,29 @@
 
     .rgb-text strong {
       display: block;
-      color: var(--text);
+      color: var(--accent-dark);
       font-size: 0.9rem;
     }
 
     .btn-apply {
       background: var(--accent);
-      color: #06281e;
+      color: #ffffff;
       font-weight: 700;
       border: none;
       border-radius: 10px;
-      padding: 0.75rem 1.35rem;
+      padding: 0.75rem 1.45rem;
       font-size: 0.95rem;
       cursor: pointer;
-      transition: filter 0.15s ease;
+      box-shadow: 0 3px 10px rgba(90, 154, 50, 0.28);
+      transition: background 0.15s ease, transform 0.1s ease;
     }
 
     .btn-apply:hover {
-      filter: brightness(1.1);
+      background: var(--accent-dark);
+    }
+
+    .btn-apply:active {
+      transform: scale(0.98);
     }
 
     /* Status Toast */
@@ -318,15 +354,16 @@
       align-items: center;
     }
 
-    .status-ok { color: #34d399 !important; }
-    .status-err { color: #f87171 !important; }
+    .status-ok { color: #15803d !important; font-weight: 600; }
+    .status-err { color: #dc2626 !important; font-weight: 600; }
   </style>
 </head>
 <body>
 
   <header>
     <div class="brand">
-      <h1>EcoMonitor</h1>
+      <img src="EcoMonitorLogo.png" alt="EcoMonitor Logo" />
+      <div class="brand-divider"></div>
       <p>Control de Iluminación</p>
     </div>
     <div class="server-box">
@@ -437,10 +474,9 @@
 
     let currentHue = 0;   // 0 - 360
     let currentSat = 0;   // 0 - 1
-    let currentVal = 0.8; // 0 - 1 (brightness)
+    let currentVal = 0.8; // 0 - 1
     let isDragging = false;
 
-    // 1. Draw HSV Color Wheel onto Canvas
     function drawColorWheel() {
       const radius = canvas.width / 2;
       const image = ctx.createImageData(canvas.width, canvas.height);
@@ -468,7 +504,6 @@
       ctx.putImageData(image, 0, 0);
     }
 
-    // 2. HSV (h: 0-360, s: 0-1, v: 0-1) -> RGB (0-255)
     function hsvToRgb(h, s, v) {
       const c = v * s;
       const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
@@ -489,7 +524,6 @@
       ];
     }
 
-    // 3. Handle Wheel Pointer Interaction
     function pickFromWheel(clientX, clientY) {
       const rect = canvas.getBoundingClientRect();
       const radius = rect.width / 2;
@@ -497,7 +531,6 @@
       let dy = clientY - (rect.top + radius);
       let dist = Math.sqrt(dx * dx + dy * dy);
 
-      // Clamp cursor inside circle edge
       if (dist > radius) {
         dx = (dx / dist) * radius;
         dy = (dy / dist) * radius;
@@ -522,7 +555,6 @@
       currentVal = pct / 100;
       brilloLabel.textContent = `${pct}%`;
 
-      // Pure hue+sat preview scaled visually by brightness
       const [r, g, b] = hsvToRgb(currentHue, currentSat, Math.max(0.15, currentVal));
       const [rawR, rawG, rawB] = hsvToRgb(currentHue, currentSat, 1);
 
@@ -531,7 +563,6 @@
       hsvDisplay.textContent = `H: ${currentHue}° · S: ${Math.round(currentSat * 100)}% · B: ${pct}%`;
     }
 
-    // Mouse & Touch Events for Wheel
     canvas.addEventListener('mousedown', (e) => { isDragging = true; pickFromWheel(e.clientX, e.clientY); });
     window.addEventListener('mousemove', (e) => { if (isDragging) pickFromWheel(e.clientX, e.clientY); });
     window.addEventListener('mouseup', () => { isDragging = false; });
@@ -550,7 +581,6 @@
 
     brilloSlider.addEventListener('input', updateColorUI);
 
-    // 4. UI Mode Selection & API Calls
     function seleccionarTarjeta(btn) {
       document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
@@ -602,7 +632,6 @@
       }
     }
 
-    // Initialize
     drawColorWheel();
     updateColorUI();
   </script>
